@@ -29,22 +29,15 @@ client.on('ready', async () => {
     statusCount()
   }, 600000)
 });
-async function errorEmbed(text, message) {
-  const newembed = new MessageEmbed()
-    .setColor("#FF7676")
-    .setDescription(`**❌ | ${text} **`)
-  return message.channel.send({ embeds: [newembed] });
-}
-client.on('message', async (message) => {
+
+client.on('messageCreate', async (message) => {
   if (!message.guild) return;
   if (message.author.bot) return;
   try {
     if (message.channel.id != channel_id) return
     let res = await axios.get(`http://api.brainshop.ai/get?bid=165279&key=Fhi92uMKIcLdP5tj&uid=1&msg=${encodeURIComponent(message.content)}`);
     message.reply(res.data.cnt);
-  } catch {
-    errorEmbed(`Bot error, please try again!`, message)
-  }
+  } catch((e) => console.log(e))
 })
 
 client.on("messageCreate", async (message) => {
