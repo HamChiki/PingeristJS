@@ -1,4 +1,5 @@
 const { Client, Permissions, MessageActionRow, MessageEmbed, MessageButton } = require("discord.js");
+const axios = require("axios");
 const row = MessageActionRow;
 const button = MessageButton;
 const perms = Permissions;
@@ -8,22 +9,43 @@ const client = new Client({
   intents: 32767,
 });
 
+//=============================================
+const channel_id = "1008592723290357870"
+//=============================================
+
 client.on('ready', async () => {
   console.log(`${client.user.tag}`)
   client.user.setStatus("online")
   client.user.setActivity(`Pings!`, { type: 'WATCHING' });
-  const guild = await client.guilds.cache.get('1007590407460372533');
+  const guild = client.guilds.cache.get('1007590407460372533');
   client.channels.cache.get('1007841391419859066').setName(`😳 Total - ${guild.memberCount}`);
   client.channels.cache.get('1007841432335286272').setName(`🔴 Users - ${guild.members.cache.filter(member => !member.user.bot).size}`);
   client.channels.cache.get('1007841497758044261').setName(`👾 Bots - ${guild.members.cache.filter(member => member.user.bot).size}`);
-  
+
   function statusCount() {
-    client.channels.cache.get('1007842623186276443').setName(`🟢 ${guild.members.cache.filter(m => m.presence?.status == 'online').size} ⛔ ${guild.members.cache.filter(m => m.presence?.status == 'dnd').size} 🌙 ${guild.members.cache.filter(m => m.presence?.status == 'idle').size} ⚫ ${guild.members.cache.filter(m => m.presence?.status == 'offline' || !m.presence).size}`); 
+    client.channels.cache.get('1007842623186276443').setName(`🟢 ${guild.members.cache.filter(m => m.presence?.status == 'online').size} ⛔ ${guild.members.cache.filter(m => m.presence?.status == 'dnd').size} 🌙 ${guild.members.cache.filter(m => m.presence?.status == 'idle').size} ⚫ ${guild.members.cache.filter(m => m.presence?.status == 'offline' || !m.presence).size}`);
   } statusCount()
   setInterval(() => {
-        statusCount()
-    }, 600000)
+    statusCount()
+  }, 600000)
 });
+async function errorEmbed(text, message) {
+  const newembed = new MessageEmbed()
+    .setColor("#FF7676")
+    .setDescription(`**❌ | ${text} **`)
+  return message.channel.send({ embeds: [newembed] });
+}
+client.on('message', async (message) => {
+  if (!message.guild) return;
+  if (message.author.bot) return;
+  try {
+    if (message.channel.id != channel_id) return
+    let res = await axios.get(`http://api.brainshop.ai/get?bid=165279&key=Fhi92uMKIcLdP5tj&uid=1&msg=${encodeURIComponent(message.content)}`);
+    message.reply(res.data.cnt);
+  } catch {
+    errorEmbed(`Bot error, please try again!`, message)
+  }
+})
 
 client.on("messageCreate", async (message) => {
   if (message.content == `${prefix}role`) {
@@ -88,6 +110,7 @@ client.on("messageCreate", async (message) => {
     }
   }
 });
+
 client.on('guildMemberAdd', async (member) => {
   member.roles.add("1007633515178885151");
   const guild = await client.guilds.cache.get('1007590407460372533');
@@ -95,12 +118,14 @@ client.on('guildMemberAdd', async (member) => {
   client.channels.cache.get('1007841432335286272').setName(`🔴 Users - ${guild.members.cache.filter(member => !member.user.bot).size}`);
   client.channels.cache.get('1007841497758044261').setName(`👾 Bots - ${guild.members.cache.filter(member => member.user.bot).size}`);
 });
+
 client.on('guildMemberRemove', async (member) => {
   const guild = await client.guilds.cache.get('1007590407460372533');
   client.channels.cache.get('1007841391419859066').setName(`😳 Total - ${guild.memberCount}`);
   client.channels.cache.get('1007841432335286272').setName(`🔴 Users - ${guild.members.cache.filter(member => !member.user.bot).size}`);
   client.channels.cache.get('1007841497758044261').setName(`👾 Bots - ${guild.members.cache.filter(member => member.user.bot).size}`);
 });
+
 client.on("interactionCreate", async (interaction) => {
   if (interaction.isButton()) {
     if (interaction.customId == "r1") {
@@ -135,56 +160,56 @@ client.on("interactionCreate", async (interaction) => {
       if (!interaction.member.permissions.has(perms.FLAGS.ADMINISTRATOR)) {
         interaction.reply({ content: ":x: | Chaos pings will start after we hit 50 users!", ephemeral: true });
       }
-//       if (interaction.member.roles.cache.some((role) => role.id == c1)) {
-//         interaction.reply({
-//           content: "Dude... you already have this role ☠",
-//           ephemeral: true,
-//         });
-//       } else {
-//         interaction.member.roles.add(c1);
-//         interaction.member.roles.remove(c2);
-//         interaction.member.roles.remove(c3);
-//         await interaction.reply({
-//           content: "I hope you know what your doing...",
-//           ephemeral: true,
-//         });
-//       }
+      //       if (interaction.member.roles.cache.some((role) => role.id == c1)) {
+      //         interaction.reply({
+      //           content: "Dude... you already have this role ☠",
+      //           ephemeral: true,
+      //         });
+      //       } else {
+      //         interaction.member.roles.add(c1);
+      //         interaction.member.roles.remove(c2);
+      //         interaction.member.roles.remove(c3);
+      //         await interaction.reply({
+      //           content: "I hope you know what your doing...",
+      //           ephemeral: true,
+      //         });
+      //       }
     } else if (interaction.customId == "c2") {
       if (!interaction.member.permissions.has(perms.FLAGS.ADMINISTRATOR)) {
         interaction.reply({ content: ":x: | Chaos pings will start after we hit 50 users!", ephemeral: true });
       }
-//       if (interaction.member.roles.cache.some((role) => role.id == c2)) {
-//         interaction.reply({
-//           content: "Umm your already in normal ping..",
-//           ephemeral: true,
-//         }); 
-//       } else {
-//         interaction.member.roles.remove(c1);
-//         interaction.member.roles.add(c2);
-//         interaction.member.roles.remove(c3);
-//         await interaction.reply({
-//           content: "Your at normal ping, good for you.",
-//           ephemeral: true,
-//         });
-//       }
+      //       if (interaction.member.roles.cache.some((role) => role.id == c2)) {
+      //         interaction.reply({
+      //           content: "Umm your already in normal ping..",
+      //           ephemeral: true,
+      //         }); 
+      //       } else {
+      //         interaction.member.roles.remove(c1);
+      //         interaction.member.roles.add(c2);
+      //         interaction.member.roles.remove(c3);
+      //         await interaction.reply({
+      //           content: "Your at normal ping, good for you.",
+      //           ephemeral: true,
+      //         });
+      //       }
     } else if (interaction.customId == "c3") {
       if (!interaction.member.permissions.has(perms.FLAGS.ADMINISTRATOR)) {
         interaction.reply({ content: ":x: | Chaos pings will start after we hit 50 users!", ephemeral: true });
       }
-//       if (interaction.member.roles.cache.some((role) => role.id == c3)) {
-//         interaction.reply({
-//           content: "Calm down, your already in peaceful world.",
-//           ephemeral: true,
-//         });         
-//       } else {
-//         interaction.member.roles.add(c3);
-//         interaction.member.roles.remove(c2);
-//         interaction.member.roles.remove(c1);
-//         await interaction.reply({
-//           content: "I see... well goodluck!",
-//           ephemeral: true,
-//         });
-//       }
+      //       if (interaction.member.roles.cache.some((role) => role.id == c3)) {
+      //         interaction.reply({
+      //           content: "Calm down, your already in peaceful world.",
+      //           ephemeral: true,
+      //         });         
+      //       } else {
+      //         interaction.member.roles.add(c3);
+      //         interaction.member.roles.remove(c2);
+      //         interaction.member.roles.remove(c1);
+      //         await interaction.reply({
+      //           content: "I see... well goodluck!",
+      //           ephemeral: true,
+      //         });
+      //       }
     }
   }
 });
