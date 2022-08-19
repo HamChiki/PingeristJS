@@ -10,20 +10,21 @@ const client = new Client({
 });
 
 //=============================================
-const channel_id = "1008592723290357870"
+const channel_id = "CHANNEL_FOR_BOT_AI_TALK"
 //=============================================
 
 client.on('ready', async () => {
   console.log(`${client.user.tag}`)
   client.user.setStatus("online")
   client.user.setActivity(`Pings!`, { type: 'WATCHING' });
-  const guild = client.guilds.cache.get('1007590407460372533');
-  client.channels.cache.get('1007841391419859066').setName(`😳 Total - ${guild.memberCount}`);
-  client.channels.cache.get('1007841432335286272').setName(`🔴 Users - ${guild.members.cache.filter(member => !member.user.bot).size}`);
-  client.channels.cache.get('1007841497758044261').setName(`👾 Bots - ${guild.members.cache.filter(member => member.user.bot).size}`);
+  // GUILD STATUS
+  const guild = client.guilds.cache.get('GUILD_ID');
+  client.channels.cache.get('CHANNEL_ID').setName(`😳 Total - ${guild.memberCount}`);
+  client.channels.cache.get('CHANNEL_ID').setName(`🔴 Users - ${guild.members.cache.filter(member => !member.user.bot).size}`);
+  client.channels.cache.get('CHANNEL_ID').setName(`👾 Bots - ${guild.members.cache.filter(member => member.user.bot).size}`);
 
   function statusCount() {
-    client.channels.cache.get('1007842623186276443').setName(`🟢 ${guild.members.cache.filter(m => m.presence?.status == 'online').size} ⛔ ${guild.members.cache.filter(m => m.presence?.status == 'dnd').size} 🌙 ${guild.members.cache.filter(m => m.presence?.status == 'idle').size} ⚫ ${guild.members.cache.filter(m => m.presence?.status == 'offline' || !m.presence).size}`);
+    client.channels.cache.get('CHANNEL_ID').setName(`🟢 ${guild.members.cache.filter(m => m.presence?.status == 'online').size} ⛔ ${guild.members.cache.filter(m => m.presence?.status == 'dnd').size} 🌙 ${guild.members.cache.filter(m => m.presence?.status == 'idle').size} ⚫ ${guild.members.cache.filter(m => m.presence?.status == 'offline' || !m.presence).size}`);
   } statusCount()
   setInterval(() => {
     statusCount()
@@ -107,18 +108,20 @@ client.on("messageCreate", async (message) => {
 });
 
 client.on('guildMemberAdd', async (member) => {
-  member.roles.add("1007633515178885151");
-  const guild = await client.guilds.cache.get('1007590407460372533');
-  client.channels.cache.get('1007841391419859066').setName(`😳 Total - ${guild.memberCount}`);
-  client.channels.cache.get('1007841432335286272').setName(`🔴 Users - ${guild.members.cache.filter(member => !member.user.bot).size}`);
-  client.channels.cache.get('1007841497758044261').setName(`👾 Bots - ${guild.members.cache.filter(member => member.user.bot).size}`);
+  member.roles.add("AUTO_ROLE_NONE_VERIFY");
+  //STATUS UPDATE WHEN SOMEONE JOINED
+  const guild = await client.guilds.cache.get('GUILD_ID');
+  client.channels.cache.get('CHANNEL_ID').setName(`😳 Total - ${guild.memberCount}`);
+  client.channels.cache.get('CHANNEL_ID').setName(`🔴 Users - ${guild.members.cache.filter(member => !member.user.bot).size}`);
+  client.channels.cache.get('CHANNEL_ID').setName(`👾 Bots - ${guild.members.cache.filter(member => member.user.bot).size}`);
 });
 
 client.on('guildMemberRemove', async (member) => {
-  const guild = await client.guilds.cache.get('1007590407460372533');
-  client.channels.cache.get('1007841391419859066').setName(`😳 Total - ${guild.memberCount}`);
-  client.channels.cache.get('1007841432335286272').setName(`🔴 Users - ${guild.members.cache.filter(member => !member.user.bot).size}`);
-  client.channels.cache.get('1007841497758044261').setName(`👾 Bots - ${guild.members.cache.filter(member => member.user.bot).size}`);
+  //STATUS UPDATE WHEN SOMEONE LEAVES
+  const guild = await client.guilds.cache.get('GUILD_ID');
+  client.channels.cache.get('CHANNEL_ID').setName(`😳 Total - ${guild.memberCount}`);
+  client.channels.cache.get('CHANNEL_ID').setName(`🔴 Users - ${guild.members.cache.filter(member => !member.user.bot).size}`);
+  client.channels.cache.get('CHANNEL_ID').setName(`👾 Bots - ${guild.members.cache.filter(member => member.user.bot).size}`);
 });
 
 client.on("interactionCreate", async (interaction) => {
