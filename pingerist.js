@@ -1,3 +1,9 @@
+/**
+@Hachiki
+- Pingerist Role Giver and AI
+- Credits goes all to Hachiki
+**/
+
 const { Client, Permissions, MessageActionRow, MessageEmbed, MessageButton } = require("discord.js");
 const axios = require("axios");
 const row = MessageActionRow;
