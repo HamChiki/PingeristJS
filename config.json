@@ -1,10 +1,10 @@
 {
-  "prefix": "!",
+  "prefix": "YOUR_PREFIX",
   "r1": "PING_ROLE_ID",
   "r1e": "ROLE_PING_EMOJI",
   "r2": "NO_PINGS_ROLE_ID",
-  "c1": "N/A",
-  "c2": "N/A",
-  "c3": "N/A",
+  "c1": "N/A", // DELETE THIS IF YOU DON'T SET THE CHAOS ROLE
+  "c2": "N/A", // DELETE THIS IF YOU DON'T SET THE CHAOS ROLE
+  "c3": "N/A", // DELETE THIS IF YOU DON'T SET THE CHAOS ROLE
   "token": "YOUR_BOT_TOKEN"
 }
