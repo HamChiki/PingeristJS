@@ -1,10 +1,10 @@
 {
   "prefix": "!",
-  "r1": "1007590892078645288",
-  "r1e": "1007606143947919381",
-  "r2": "1007590970730238002",
-  "c1": "1007891499792470056",
-  "c2": "1007590892078645288",
-  "c3": "1007590970730238002",
-  "token": "OTg5MzUzMTg2NDQ1OTE0MTcy.GVI9XE.U94O5TsQO4OA56QWlj1m2AXb_e_h5MhOPTO5Hs"
+  "r1": "PING_ROLE_ID",
+  "r1e": "ROLE_PING_EMOJI",
+  "r2": "NO_PINGS_ROLE_ID",
+  "c1": "N/A",
+  "c2": "N/A",
+  "c3": "N/A",
+  "token": "YOUR_BOT_TOKEN"
 }
